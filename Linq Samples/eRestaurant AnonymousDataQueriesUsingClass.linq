@@ -1,4 +1,4 @@
-<Query Kind="Program">
+<Query Kind="Statements">
   <Connection>
     <ID>a8999fca-8c48-4af5-98db-1a0f0dfd7ce3</ID>
     <Persist>true</Persist>
@@ -96,4 +96,8 @@ public class BillOrders
   public int BillID{get;set;}
   public string WaiterName{get;set;}
   public BillItems Orders {get;set;}
+ // public IEnuremable Orders {get;set;}
 }
+
+
+
