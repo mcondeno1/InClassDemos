@@ -48,6 +48,17 @@ namespace eRestaurantSystem.DAL
 
          protected override void OnModelCreating(DbModelBuilder modelBuilder)
          {
+             //create the modelBuilder
+             modelBuilder
+                 .Entity<Reservation>()
+                 .HasMany(r => r.Tables)
+                 .WithMany(t => t.Reservations)
+                 .Map(mapping =>
+                 {
+                     mapping.ToTable("ReservationTables");
+                     mapping.MapLeftKey("ReservationID");
+                     mapping.MapRightKey("TableID");
+                 });
              base.OnModelCreating(modelBuilder); //DO NOT REMOVE
          }
     }
