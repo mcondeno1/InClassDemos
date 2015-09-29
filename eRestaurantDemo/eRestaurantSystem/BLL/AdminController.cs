@@ -28,9 +28,40 @@ namespace eRestaurantSystem.BLL
             using (var context = new eRestaurantContext())
             {
                 // method syntax
-                return context.SpecialEvents.OrderBy(x => x.Description).ToList();
+               // return context.SpecialEvents.OrderBy(x => x.Description).ToList();
+
+                //Query syntax
+                var results = from item in context.SpecialEvents orderby item.Description select item;
+                return results.ToList();
+
             }
             
+        }
+
+
+        //the user has to choose the method
+        [DataObjectMethod(DataObjectMethodType.Select, false)]
+        public List<Reservation> GetReservationsByEventCode(string eventcode)
+        {
+            //connect to our DbContext class in the DAL
+            //create an instance of the class
+            //we will use a transaction to hold our query
+            //if "using" does not finish, this transaction will rollback
+            using (var context = new eRestaurantContext())
+            {
+                // method syntax
+                // return context.SpecialEvents.OrderBy(x => x.Description).ToList();
+           
+
+                //Query syntax
+                var results = from item in context.Reservations 
+                              where item.EventCode.Equals(eventcode)
+                              orderby item.CustomerName,item.ReservationDate
+                              select item;
+                return results.ToList();
+
+            }
+
         }
     }
 }

@@ -19,7 +19,7 @@ namespace eRestaurantSystem.DAL
     {
          //create a constructor which will pass the connection string
          //name to the DBContext
-         public eRestaurantContext(): base("name-EatIn") //this is the connectionString
+         public eRestaurantContext(): base("name=EatIn") //this is the connectionString
          { 
 
          }
