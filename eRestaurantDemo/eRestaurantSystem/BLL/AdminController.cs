@@ -106,5 +106,32 @@ namespace eRestaurantSystem.BLL
 
 
 
+        [DataObjectMethod(DataObjectMethodType.Select, false)]
+        public List<MenuCategoryItems> MenuCategoyItems_List()
+        {
+            //use a transaction
+            using (var context = new eRestaurantContext())
+            {
+               
+                var results = from menuitem in context.MenuCategories
+                              orderby menuitem.Description
+                              select new MenuCategoryItems() // a new instance for each special event row for the table
+                              {
+                                  Description = menuitem.Description,
+                                  MenuItems = from row in menuitem.MenuItems
+                                                 select new MenuItem()
+                                                 {
+                                                     Description = row.Description,
+                                                     Price = row.CurrentPrice,
+                                                     Calories = row.Calories,
+                                                     Comment = row.Comment
+                                                 }
+                              };
+
+                return results.ToList();
+            }
+        }
+
+
     }
 }
