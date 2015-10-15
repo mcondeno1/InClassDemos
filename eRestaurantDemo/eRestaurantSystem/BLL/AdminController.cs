@@ -19,6 +19,7 @@ namespace eRestaurantSystem.BLL
     public class AdminController
     {
 
+        #region Queries
         //the user has to choose the method
         [DataObjectMethod(DataObjectMethodType.Select, false)]
         public List<SpecialEvent> SpecialEvents_List()
@@ -131,7 +132,62 @@ namespace eRestaurantSystem.BLL
                 return results.ToList();
             }
         }
+        #endregion
 
 
+        #region Add, Update, Delete of CRUD for CQRS
+        [DataObjectMethod(DataObjectMethodType.Insert, false)]
+        public void SpecialEvents_Add(SpecialEvent item)
+        { 
+            using (eRestaurantContext context = new eRestaurantContext())
+            {
+                // these methods are executed using an instance level item
+                // setup an instance pointer and initialize to null
+                SpecialEvent added = null;
+
+                //setup the command to execute the add
+                added = context.SpecialEvents.Add(item);
+               
+                // the command is not executed until it is actually saved
+                context.SaveChanges();
+            }
+            
+        }
+
+
+        [DataObjectMethod(DataObjectMethodType.Update, false)]
+        public void SpecialEvents_Update(SpecialEvent item)
+        {
+            using (eRestaurantContext context = new eRestaurantContext())
+            {
+                // indicate the updating item instance
+                //alter the modified status flag for this instance
+                context.Entry<SpecialEvent>(context.SpecialEvents.Attach(item)).State = 
+                    System.Data.Entity.EntityState.Modified;
+
+                // the command is not executed until it is actually saved
+                context.SaveChanges();
+            }
+
+        }
+
+
+        [DataObjectMethod(DataObjectMethodType.Delete, false)]
+        public void SpecialEvents_Delete(SpecialEvent item)
+        {
+            using (eRestaurantContext context = new eRestaurantContext())
+            {
+                //lookup the instance and record if found
+                SpecialEvent existing = context.SpecialEvents.Find(item.EventCode);
+
+                //if the record is found then remove the instance
+                context.SpecialEvents.Remove(existing);
+
+                // the command is not executed until it is actually saved
+                context.SaveChanges();
+            }
+
+        }
+        #endregion
     }
-}
+}//eof namespace
