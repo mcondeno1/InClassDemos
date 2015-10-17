@@ -1,8 +1,15 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Site.master" AutoEventWireup="true" CodeFile="SpecialEventsAdmin.aspx.cs" Inherits="SamplePages_SpecialEventsAdmin" %>
 
+<%@ Register Src="~/UserControls/MessageUserControl.ascx" TagPrefix="uc1" TagName="MessageUserControl" %>
+
+
+
+
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" Runat="Server">
     
+    <uc1:MessageUserControl runat="server" ID="MessageUserControl" />
     <table align="center" style="width: 70%">
+
         <tr>
             <td align="right" style="width:50%">Select an Event:</td>
             <td style="height: 27px">
@@ -77,5 +84,7 @@
             <asp:ControlParameter ControlID="SpecialEventList" Name="eventcode" PropertyName="SelectedValue" Type="String" />
         </SelectParameters>
     </asp:ObjectDataSource>
+
+  
 </asp:Content>
 

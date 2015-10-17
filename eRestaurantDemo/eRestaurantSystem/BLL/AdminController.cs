@@ -132,6 +132,55 @@ namespace eRestaurantSystem.BLL
                 return results.ToList();
             }
         }
+
+        /// <summary>
+        /// List of Waiter
+        /// </summary>
+        /// <param name="item"></param>
+        [DataObjectMethod(DataObjectMethodType.Select, false)]
+        public List<Waiter> Waiter_List()
+        {
+            //connect to our DbContext class in the DAL
+            //create an instance of the class
+            //we will use a transaction to hold our query
+            //if "using" does not finish, this transaction will rollback
+            using (var context = new eRestaurantContext())
+            {
+                // method syntax
+                // return context.SpecialEvents.OrderBy(x => x.Description).ToList();
+
+                //Query syntax
+                var results = from item in context.Waiters orderby 
+                                  item.LastName, item.FirstName select item;
+                return results.ToList();
+
+            }
+
+        }
+
+        [DataObjectMethod(DataObjectMethodType.Select, false)]
+        public Waiter GetWaiterByID( int waiterid)
+        {
+            //connect to our DbContext class in the DAL
+            //create an instance of the class
+            //we will use a transaction to hold our query
+            //if "using" does not finish, this transaction will rollback
+            using (var context = new eRestaurantContext())
+            {
+                // method syntax
+                // return context.SpecialEvents.OrderBy(x => x.Description).ToList();
+
+                //Query syntax
+                var results = from item in context.Waiters
+                              where item.WaiterID == waiterid
+                              select item;
+
+                // returns one row at most
+                return results.FirstOrDefault();
+
+            }
+
+        }
         #endregion
 
 
@@ -179,6 +228,62 @@ namespace eRestaurantSystem.BLL
             {
                 //lookup the instance and record if found
                 SpecialEvent existing = context.SpecialEvents.Find(item.EventCode);
+
+                //if the record is found then remove the instance
+                context.SpecialEvents.Remove(existing);
+
+                // the command is not executed until it is actually saved
+                context.SaveChanges();
+            }
+
+        }
+
+
+
+        //Waiter
+        [DataObjectMethod(DataObjectMethodType.Insert, false)]
+        public void Waiter_Add(Waiter item)
+        {
+            using (eRestaurantContext context = new eRestaurantContext())
+            {
+                // these methods are executed using an instance level item
+                // setup an instance pointer and initialize to null
+                Waiter added = null;
+
+                //setup the command to execute the add
+                added = context.Waiters.Add(item);
+
+                // the command is not executed until it is actually saved
+                context.SaveChanges();
+            }
+
+        }
+
+
+        [DataObjectMethod(DataObjectMethodType.Update, false)]
+        public void Waiter_Update(Waiter item)
+        {
+            using (eRestaurantContext context = new eRestaurantContext())
+            {
+                // indicate the updating item instance
+                //alter the modified status flag for this instance
+                context.Entry<Waiter>(context.Waiters.Attach(item)).State =
+                    System.Data.Entity.EntityState.Modified;
+
+                // the command is not executed until it is actually saved
+                context.SaveChanges();
+            }
+
+        }
+
+
+        [DataObjectMethod(DataObjectMethodType.Delete, false)]
+        public void Waiter_Delete(Waiter item)
+        {
+            using (eRestaurantContext context = new eRestaurantContext())
+            {
+                //lookup the instance and record if found
+                SpecialEvent existing = context.SpecialEvents.Find(item.WaiterID);
 
                 //if the record is found then remove the instance
                 context.SpecialEvents.Remove(existing);
