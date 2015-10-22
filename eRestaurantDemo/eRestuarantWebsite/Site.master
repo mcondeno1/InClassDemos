@@ -55,10 +55,9 @@
                         <li><a runat="server" href="~/SamplePages/ListView">ListView</a></li>
                          <li><a runat="server" href="~/SamplePages/ReservationsByDate">RPR Reservations</a></li>
                          <li><a runat="server" href="~/SamplePages/CategoryMenuItems">RPR CategMenuItems</a></li>
-                        <li><a runat="server" href="~/CommandPages/SpecialEventsAdmin">ListView CRUD</a></li>
-                        <li><a runat="server" href="~/CommandPages/WaiterAdmin">Single Row CRUD</a></li>
-                        <li><a runat="server" href="~/About">About</a></li>
-                        <li><a runat="server" href="~/Contact">Contact</a></li>
+                        
+                         <li><a runat="server" href="~/Reports/CategoryMenuItemsReport">Report</a></li>
+                        
                     </ul>
                     <asp:LoginView runat="server" ViewStateMode="Disabled">
                         <AnonymousTemplate>
@@ -76,16 +75,23 @@
                         DynamicMenuItemStyle-ForeColor="#999999" 
                         DynamicMenuStyle-BackColor="Black">
                         <Items>
-                            <asp:MenuItem Text="Home" NavigateUrl="~/"></asp:MenuItem>
+                            
+                            <asp:MenuItem Text="CRUD" Value="DDMenu">
+                                <asp:MenuItem Text="Home" NavigateUrl="~/"></asp:MenuItem>
+                                <asp:MenuItem Text="ListView CRUD" NavigateUrl="~/CommandPages/SpecialEventsAdmin"></asp:MenuItem>
+                                <asp:MenuItem Text="Single Row CRUD" NavigateUrl="~/CommandPages/WaiterAdmin"></asp:MenuItem>
+                               
+              
+                            </asp:MenuItem>
 
                             <asp:MenuItem Text="DDMenu" Value="DDMenu">
+                                <asp:MenuItem Text="Home" NavigateUrl="~/"></asp:MenuItem>
                                 <asp:MenuItem Text="About Us" NavigateUrl="~/About.aspx"></asp:MenuItem>
                                 <asp:MenuItem Text="Contact Us" NavigateUrl="~/Contact.aspx"></asp:MenuItem>
 
                             </asp:MenuItem>
 
-                            <asp:MenuItem Text="About Us" NavigateUrl="~/About.aspx"></asp:MenuItem>
-                             <asp:MenuItem Text="Contact Us" NavigateUrl="~/Contact.aspx"></asp:MenuItem>
+                            
                         </Items>
                 </asp:Menu>
 

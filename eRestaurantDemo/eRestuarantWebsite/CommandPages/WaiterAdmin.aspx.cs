@@ -19,7 +19,19 @@ public partial class CommandPages_WaiterAdmin : System.Web.UI.Page
         if (!Page.IsPostBack)
         {
             HireDate.Text = DateTime.Today.ToShortDateString();
+            RefreshWaiterList("0"); //set your dropdown list to the prompt
         }
+    }
+
+
+    protected void RefreshWaiterList(string selectedvalue)
+    { 
+        //force the re-execution of the query of the dropdown list
+        WaiterList.DataBind();
+        //Insert the prompt line into the drop down list data
+        WaiterList.Items.Insert(0, "Select a waiter");
+        //position the WaiterList to the desired row representing the waiter
+        WaiterList.SelectedValue = selectedvalue;
     }
 
     protected void CheckForException(object sender, ObjectDataSourceStatusEventArgs e)
@@ -103,9 +115,9 @@ public partial class CommandPages_WaiterAdmin : System.Web.UI.Page
                     AdminController sysmgr = new AdminController();
                     WaiterID.Text = sysmgr.Waiters_Add(item).ToString();
                     MessageUserControl.ShowInfo("Waiter added.");
-
-                    //this will force the dropdown list to be refreshed
-                    WaiterList.DataBind();
+                    
+                    //Refresh the waiterlist
+                    RefreshWaiterList(WaiterID.Text);
                        
                 }
 
@@ -151,8 +163,8 @@ public partial class CommandPages_WaiterAdmin : System.Web.UI.Page
                         AdminController sysmgr = new AdminController();
                         sysmgr.Waiters_Update(item);
                         MessageUserControl.ShowInfo("Waiter Updated.");
-                      
-                      
+
+                        RefreshWaiterList(WaiterID.Text);
                     }
                 );
 
