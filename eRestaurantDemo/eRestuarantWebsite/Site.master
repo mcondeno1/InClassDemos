@@ -56,7 +56,7 @@
                          <li><a runat="server" href="~/SamplePages/ReservationsByDate">RPR Reservations</a></li>
                          <li><a runat="server" href="~/SamplePages/CategoryMenuItems">RPR CategMenuItems</a></li>
                         
-                         <li><a runat="server" href="~/Reports/CategoryMenuItemsReport">Report</a></li>
+                        
                         
                     </ul>
                     <asp:LoginView runat="server" ViewStateMode="Disabled">
@@ -91,6 +91,12 @@
 
                             </asp:MenuItem>
 
+
+                             <asp:MenuItem Text="Report" Value="DDMenu">
+                                <asp:MenuItem Text="Report" NavigateUrl="~/Reports/CategoryMenuItemsReport"></asp:MenuItem>
+                                <asp:MenuItem Text="WaiterBillingReport" NavigateUrl="~/Reports/WaiterBillingReport"></asp:MenuItem>
+                                                     
+                            </asp:MenuItem>
                             
                         </Items>
                 </asp:Menu>
