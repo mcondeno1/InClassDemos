@@ -351,5 +351,19 @@ namespace eRestaurantSystem.BLL
         }
 
         #endregion
+
+        #region FrontDesk
+        [DataObjectMethod(DataObjectMethodType.Select)]
+        public DateTime GetLastBillDateTime()
+        {
+            using (var context = new eRestaurantContext())
+            {
+                var result = context.Bills.Max(eachBillrow => eachBillrow.BillDate);
+                return result;
+            }
+        }
+
+        #endregion
+
     }
 }//eof namespace

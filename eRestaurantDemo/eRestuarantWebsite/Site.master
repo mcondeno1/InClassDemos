@@ -86,6 +86,7 @@
 
                             <asp:MenuItem Text="DDMenu" Value="DDMenu">
                                 <asp:MenuItem Text="Home" NavigateUrl="~/"></asp:MenuItem>
+                                 <asp:MenuItem Text="Front Desk" NavigateUrl="~/UXPages/FrontDesk.aspx"></asp:MenuItem>
                                 <asp:MenuItem Text="About Us" NavigateUrl="~/About.aspx"></asp:MenuItem>
                                 <asp:MenuItem Text="Contact Us" NavigateUrl="~/Contact.aspx"></asp:MenuItem>
 
