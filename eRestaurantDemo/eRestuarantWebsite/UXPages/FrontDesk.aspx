@@ -6,7 +6,8 @@
         <div class="pull-right col-md-5">
             <h4>
                 <small>Last Billed Date/Time:</small>
-                <asp:Repeater ID="AdHocBillDateRepeater" runat="server" DataSourceID="AdHocBillDateDataSource" ItemType="System.DateTime">
+                <asp:Repeater ID="AdHocBillDateRepeater" runat="server" 
+                    DataSourceID="AdHocBillDateDataSource" ItemType="System.DateTime">
                     <itemtemplate><b class="label label-primary"><%# Item.ToShortDateString() %></b> &ndash; <b class="label label-info"><%# Item.ToShortTimeString() %></b></itemtemplate>
                 </asp:Repeater>
             </h4>
@@ -36,6 +37,48 @@
             <summary class="badge">About ClockPicker &hellip;</summary>
             <h4>Fancy Bootstrap <a href="http://weareoutman.github.io/clockpicker/">ClockPicker</a></h4>
             <p>The time uses the ClockPicker Bootstrap extension</p>
+        </details>
+    </div>
+
+    <!--This source is to display the Reservations for the select day in a collapsable
+        display controlled by the bootsrap -->
+
+    <div class="pull-right col-md-5">
+        <details open> <!-- collapsable area controlled by the bootstrap-->
+            <summary>Reservations by Date/Time</summary>
+            <h4>Today's Reservations</h4>
+            <asp:Repeater ID="ReservationsRepeater" runat="server"
+                ItemType="eRestaurantSystem.DAL.DTOs.ReservationCollection" 
+                DataSourceID="ReservationsDataSource">
+                <ItemTemplate>
+                    <div>
+                        <h4><%# Item.SeatingTime %></h4>
+                        <asp:ListView ID="ReservationSummaryListView" runat="server"
+                                ItemType="eRestaurantSystem.DAL.POCOs.ReservationSummary"
+                                DataSource="<%# Item.Reservations %>">
+                            <LayoutTemplate>
+                                <div class="seating">
+                                    <span runat="server" id="itemPlaceholder" />
+                                </div>
+                            </LayoutTemplate>
+                            <ItemTemplate>
+                                <div>
+                                    <%# Item.Name %> —
+                                    <%# Item.NumberInParty %> —
+                                    <%# Item.Status %> —
+                                    PH:
+                                    <%# Item.Contact %>
+                                </div>
+                            </ItemTemplate>
+                        </asp:ListView>
+                    </div>
+                </ItemTemplate>
+            </asp:Repeater>
+            <asp:ObjectDataSource runat="server" ID="ReservationsDataSource" OldValuesParameterFormatString="original_{0}" SelectMethod="ReservationsByTime" TypeName="eRestaurantSystem.BLL.AdminController">
+                <SelectParameters>
+                    <asp:ControlParameter ControlID="SearchDate" PropertyName="Text" Name="date" Type="DateTime"></asp:ControlParameter>
+                </SelectParameters>
+            </asp:ObjectDataSource>
         </details>
     </div>
 </asp:Content>

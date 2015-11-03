@@ -5,7 +5,11 @@
         <tr>
             <td align="right" style="width:50%">Select an Event:</td>
             <td style="height: 27px">
-                <asp:DropDownList ID="SpecialEventList" runat="server" AppendDataBoundItems="True" DataSourceID="ODSSpecialEvents" DataTextField="Description" DataValueField="EventCode">
+                <asp:DropDownList ID="SpecialEventList" 
+                    runat="server" AppendDataBoundItems="True" 
+                    DataSourceID="ODSSpecialEvents"
+                     DataTextField="Description" 
+                    DataValueField="EventCode">
                     <asp:ListItem Value="z">Select event</asp:ListItem>
                 </asp:DropDownList>
 &nbsp;<asp:LinkButton ID="FetchRegistrations" runat="server">Fetch Registrations</asp:LinkButton>

@@ -15,6 +15,13 @@ namespace eRestaurantSystem.DAL.Entities
 {
     public class Reservation
     {
+
+        public const string Booked = "B";
+        public const string Arrived = "A";
+        public const string Complete = "C";
+        public const string NoShow = "N";
+        public const string Cancel = "X";
+
         [Key]
         public int ReservationID { get; set; }
 
