@@ -522,6 +522,65 @@ namespace eRestaurantSystem.BLL
             }
         }
 
+
+        [DataObjectMethod(DataObjectMethodType.Select, false)]
+        public List<SeatingSummary> AvailableSeatingByDateTime(DateTime date, TimeSpan time)
+        {
+            var results = from seats in SeatingByDateTime(date, time)
+                          where !seats.Taken
+                          select seats;
+            return results.ToList();
+        }
+
+
+        public void SeatCustomer(DateTime when, byte tablenumber, int numberinparty, int waiterid)
+        { 
+            // business logic checking, should be done before attempting to place  data on the database
+            // rule 1: Is the seat available
+            // rule 2: Selected table capacity sufficient
+
+            //get the available seats
+            var availableseats = AvailableSeatingByDateTime(when.Date, when.TimeOfDay);
+
+            using (eRestaurantContext context = new eRestaurantContext())
+            { 
+                //create a holding list for possible business logic errors
+                //this is needed for the MessageUsageControl
+                List<string> errors = new List<string>();
+                if (!availableseats.Exists(foreachseat => foreachseat.Table == tablenumber))
+                {
+                    //table number not available
+                    errors.Add("Table is currently not available");
+                }
+                else if (!availableseats.Exists(foreachseat => foreachseat.Table == tablenumber &&
+                    foreachseat.Seating >= numberinparty))
+                { 
+                    //the table is available but not large enough
+                    errors.Add("Insufficient seating capacity for number of customers");
+                }
+
+                //check if any errors to business rules exists
+                if (errors.Count > 0)
+                {
+                    //throw an exception which will terminate the transaction
+                    //BusinessRuleException is part of the MessageUserControl setup
+                    throw new BusinessRuleException("Unable to seat customer", errors);
+                }
+
+                //assume data is valid
+                //create an instance of the Bill entity and fill with data
+                Bill seatedcustomer = new Bill();
+                seatedcustomer.BillDate = when;
+                seatedcustomer.NumberInParty = numberinparty;
+                seatedcustomer.WaiterID = waiterid;
+                seatedcustomer.TableID = tablenumber;
+                //issue the command to add the record to the Bill entity
+                context.Bills.Add(seatedcustomer);
+                //save and commit the changes to the entity
+                context.SaveChanges();
+
+            }//end of transaction
+        }
         #endregion
 
     }
