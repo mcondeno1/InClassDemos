@@ -4,30 +4,17 @@ using Microsoft.Owin.Security;
 using System.Web;
 using System;
 using eRestuarantWebsite;
+using eRestaurantSystem.BLL.Security;
+using eRestaurantSystem.DAL.Entities.Security;
 
 namespace eRestuarantWebsite
 {
-    // You can add User data for the user by adding more properties to your User class, please visit http://go.microsoft.com/fwlink/?LinkID=317594 to learn more.
-    public class ApplicationUser : IdentityUser
-    {
-    }
-
-    public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
-    {
-        public ApplicationDbContext()
-            : base("DefaultConnection")
-        {
-        }
-    }
+    
+    
+    
 
     #region Helpers
-    public class UserManager : UserManager<ApplicationUser>
-    {
-        public UserManager()
-            : base(new UserStore<ApplicationUser>(new ApplicationDbContext()))
-        {
-        }
-    }
+    
 }
 
 namespace eRestuarantWebsite
